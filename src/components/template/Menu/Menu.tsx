@@ -1,9 +1,12 @@
+import useAuth from "../../../data/hook/useAuth";
 import { Icon } from "../../icons";
 import Logo from "../Logo";
 import Item from "./Item";
 
 
 export default function Menu() {
+    const { logout } = useAuth()
+
     return (
         <aside className={`flex flex-col
             dark:bg-gray-900 dark:text-gray-200
@@ -26,7 +29,7 @@ export default function Menu() {
 
             <ul>
                 <Item 
-                onClick={() => console.log('logout')}
+                onClick={logout}
                 className={`text-red-600 
                 hover:bg-red-400 hover:text-white
                 dark:hover:text-gray-700`}

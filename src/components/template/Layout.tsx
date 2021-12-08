@@ -1,4 +1,7 @@
 import useAppData from "../../data/hook/useAppData";
+import Protect from "../auth/Protect";
+
+
 import Content from "./Content";
 import Header from "./Header";
 import Menu from "./Menu/Menu";
@@ -13,17 +16,19 @@ export default function Layout(props: LayoutProps) {
     const { theme } = useAppData()
 
     return (
-        <div className={`${theme} flex h-screen w-screen`}>
-            <Menu />
-            <div className={`flex flex-col 
-                w-full p-7
-                bg-gray-200 dark:bg-gray-800
-            `}>
-                <Header title={props.title} subtitle={props.subtitle}/>
-                <Content>
-                    {props.children}
-                </Content>
+        <Protect>
+            <div className={`${theme} flex h-screen w-screen`}>
+                <Menu />
+                <div className={`flex flex-col 
+                    w-full p-7
+                    bg-gray-200 dark:bg-gray-800
+                `}>
+                    <Header title={props.title} subtitle={props.subtitle}/>
+                    <Content>
+                        {props.children}
+                    </Content>
+                </div>
             </div>
-        </div>
+        </Protect>
     );
 }

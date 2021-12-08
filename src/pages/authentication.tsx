@@ -1,17 +1,26 @@
 import { useState } from "react";
 import AuthInput from "../components/auth/AuthInput";
 import { Icon } from "../components/icons";
+import useAuth from "../data/hook/useAuth";
 
 export default function Authentication() {
-    const [mode, setMode] = useState<'login' | 'register'>('login')
+    const { user, loginGoogle } = useAuth()
+
+    const [error, setError] = useState(null)
+    const [mode, setMode] = useState<'login' | 'signup'>('login')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+    function showError(msg, time = 5) {
+        setError(msg)
+        setTimeout(() => setError(null), time * 1000)
+    }
+
     function submit() {
         if(mode === 'login') {
-
+            showError("Ooops!! Algo deu errado no login")
         } else {
-
+            showError("Ooops!! Algo deu errado no cadastro")
         }
     }
 
@@ -25,6 +34,19 @@ export default function Authentication() {
                 <h1 className={`text-xl font-bold mb-6`}>
                     {mode === 'login' ? 'Entre com a Sua Conta' : 'Cadastre-se agora'}
                     </h1>
+
+                {error ? (
+                    <div className={`flex items-center
+                        bg-red-400 text-white
+                        py-3 px-5 my-2
+                        border border-red-700 rounded-lg
+                        animate-bounce
+                    `}>
+                        {Icon().warning}
+                        <span className={`ml-2`}>{error}</span>
+                    </div>
+                ) : false}
+
                 <AuthInput 
                     label="Email"
                     type="email"
@@ -75,7 +97,7 @@ export default function Authentication() {
                         </div>
                     </button>
 
-                    <button onClick={submit}
+                    <button onClick={loginGoogle}
                         className={` flex items-center justify-center
                             bg-gray-100 hover:bg-gray-300
                             text-white rounded-lg px-4 py-3 mx-1
@@ -89,6 +111,24 @@ export default function Authentication() {
                         </div>
                     </button>
                 </div>
+
+                {mode === 'login' ? (
+                    <p>
+                        Novo por aqui?
+                        <a onClick={() => setMode('signup')}
+                        className={`text-blue-500 hover:text-blue-700 font-semibold 
+                        cursor-pointer`}> Crie uma conta gratuitamente
+                        </a>
+                    </p>
+                ) : (
+                    <p>
+                        Já fas parte da nossa comunidade?
+                        <a onClick={() => setMode('login')}
+                        className={`text-blue-500 hover:text-blue-700 font-semibold 
+                        cursor-pointer`}> Entre com suas credenciais
+                        </a>
+                    </p>
+                )}
             </div>
         </div>
     )
