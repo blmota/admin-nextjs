@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import Image from 'next/image'
 import Router from 'next/router'
 import load from '../../../public/images/load.gif'
@@ -9,6 +10,17 @@ export default function Protect(props) {
     function renderContent() {
         return (
             <>
+                <Head>
+                    <script 
+                        dangerouslySetInnerHTML={{
+                            __html: `
+                                if(!document.cookie?.includes("admin-nextjs-auth")){
+                                    window.location.href = "/authentication"
+                                }
+                            `
+                        }}
+                    />
+                </Head>
                 {props.children}
             </>
         )
