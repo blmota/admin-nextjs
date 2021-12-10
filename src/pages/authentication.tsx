@@ -4,7 +4,7 @@ import { Icon } from "../components/icons";
 import useAuth from "../data/hook/useAuth";
 
 export default function Authentication() {
-    const { user, loginGoogle } = useAuth()
+    const { signup, login, loginGoogle } = useAuth()
 
     const [error, setError] = useState(null)
     const [mode, setMode] = useState<'login' | 'signup'>('login')
@@ -16,11 +16,15 @@ export default function Authentication() {
         setTimeout(() => setError(null), time * 1000)
     }
 
-    function submit() {
-        if(mode === 'login') {
-            showError("Ooops!! Algo deu errado no login")
-        } else {
-            showError("Ooops!! Algo deu errado no cadastro")
+    async function submit() {
+        try {
+            if(mode === 'login') {
+                await login(email, password)
+            } else {
+                await signup(email, password)
+            }
+        } catch (e) {
+            showError(e?.message ?? "Ooop!! Algo deu errado.")
         }
     }
 

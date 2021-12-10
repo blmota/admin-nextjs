@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Router from 'next/router'
-import load from '../../../public/images/load.gif'
-import useAuth from '../../data/hook/useAuth'
+import load from '../../public/images/load.gif'
+import useAuth from '../data/hook/useAuth'
 
-export default function Protect(props) {
+export default function Protect(jsx) {
     const { user, isLoading } = useAuth()
 
     function renderContent() {
@@ -21,7 +21,7 @@ export default function Protect(props) {
                         }}
                     />
                 </Head>
-                {props.children}
+                {jsx}
             </>
         )
     }
